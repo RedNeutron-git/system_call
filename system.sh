@@ -28,14 +28,14 @@ sqnc_num=1
 
 while [ ${#txt_dsp[@]} -lt $qnt_dsp ]
 do
-  jumlah_data=${#data[@]}
-  if [ $jumlah_data -gt 0 ]; then
-    nomor_data2=$((RANDOM % jumlah_data))
-    teks_data2=${data[$nomor_data2]}
-    unset 'data[$nomor_data2]'
-    if [ -n "$teks_data2" ] && ! [[ "${txt_dsp[@]}" =~ "$teks_data2" ]]; then
-      printf ">> Report $sqnc_num: %s\n" "$teks_data2"
-      txt_dsp+=("$teks_data2")
+  jml_dt=${#data[@]}
+  if [ $jml_dt -gt 0 ]; then
+    dt_num=$((RANDOM % jml_dt))
+    tx_data2=${data[$dt_num]}
+    unset 'data[$dt_num]'
+    if [ -n "$tx_data2" ] && ! [[ "${txt_dsp[@]}" =~ "$tx_data2" ]]; then
+      printf ">> Report $sqnc_num: %s\n" "$tx_data2"
+      txt_dsp+=("$tx_data2")
       ((sqnc_num++))
     fi
   fi
@@ -50,13 +50,13 @@ pr=$(printf "%s\n")
 
 echo "opnumber=0000&sitename=CrossTekIn&epm=leader.squad%40kingslanding.com&asgdate1=$dates&asgdate2=$dates&asgproject%5B%5D=5&actdeploy=&asgjob%5B%5D=16&asgjob%5B%5D=24&actstatus=1&techissue=NO&troubleticket=&summary=Sign: $cl - $dates%0D%0A$pr$data2z&session=$sessionz" > data1.am
 Refererz=$(echo https://alpha.kingslanding.com/daily_report/input.php?Session=$sessionz)
-response_absen=$(curl -i -s -k -X POST -H $'Host: alpha.kingslanding.com' -H $'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0' -H $'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8' -H $'Accept-Language: en-US,en;q=0.5' -H $'Accept-Encoding: gzip, deflate' -H $'Content-Type: application/x-www-form-urlencoded' -H $'Origin: https://alpha.kingslanding.com' -H $'Connection: close' -H $'Referer: $Refererz' -H $'Upgrade-Insecure-Requests: 1' -H $'Sec-Fetch-Dest: document' -H $'Sec-Fetch-Mode: navigate' -H $'Sec-Fetch-Site: same-origin' -H $'Sec-Fetch-User: ?1' -d @data1.am "https://alpha.kingslanding.com/daily_report/input.php" | tr -d '\0')
+rspns_abs=$(curl -i -s -k -X POST -H $'Host: alpha.kingslanding.com' -H $'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0' -H $'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8' -H $'Accept-Language: en-US,en;q=0.5' -H $'Accept-Encoding: gzip, deflate' -H $'Content-Type: application/x-www-form-urlencoded' -H $'Origin: https://alpha.kingslanding.com' -H $'Connection: close' -H $'Referer: $Refererz' -H $'Upgrade-Insecure-Requests: 1' -H $'Sec-Fetch-Dest: document' -H $'Sec-Fetch-Mode: navigate' -H $'Sec-Fetch-Site: same-origin' -H $'Sec-Fetch-User: ?1' -d @data1.am "https://alpha.kingslanding.com/daily_report/input.php" | tr -d '\0')
 
 rm -rf data1.am data2.am
 
 #---------------------------------------------------------------#
 # Uncomment for debug
-#echo $response_absen > respon_absen.junk
+#echo $rspns_abs > respon_absen.junk
 #---------------------------------------------------------------#
 
 # Cronjob
